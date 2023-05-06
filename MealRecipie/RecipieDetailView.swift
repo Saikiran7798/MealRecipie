@@ -15,6 +15,14 @@ struct RecipieDetailView: View {
         ScrollView {
             VStack(alignment: .leading){
                 if let detailedMeals = detailedMeals {
+                    HStack{
+                        Spacer()
+                        Text("\(mealTitle)")
+                            .font(.title)
+                        Spacer()
+                    }
+                    .padding()
+                    .padding(.top, -20)
                     HStack(){
                         Spacer()
                         Text("Instructions to prepare the Meal")
@@ -23,9 +31,11 @@ struct RecipieDetailView: View {
                     }
                     ForEach(detailedMeals.instuctions, id: \.self){ item in
                         HStack{
-                            Image(systemName: "square.fill")
-                                .foregroundColor(.orange)
-                                .frame(alignment: .topTrailing)
+                            VStack{
+                                Image(systemName: "square.fill")
+                                    .foregroundColor(.orange)
+                                Spacer()
+                            }
                             Text("\(item)")
                                 .foregroundColor(.black)
                         }
@@ -52,9 +62,9 @@ struct RecipieDetailView: View {
                 else {
                     ProgressView()
                 }
+                Spacer()
             }
         }
-        .navigationTitle("\(mealTitle)")
         .onAppear(){
             Task(priority: .background){
                 let detailMeals = await APIRequests.shared.getMealDetails(mealId: mealID)
